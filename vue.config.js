@@ -30,7 +30,7 @@ module.exports = {
     }
   },
   chainWebpack: config => {
-    // 一个规则里的基础Loader
+    // 一个规则里的 基础Loader
     // svg是个基础loader
     const svgRule = config.module.rule('svg')
 

@@ -4,7 +4,6 @@
  * @param {Object} hasTime 是否有时间  true有时间，false没有时间
  */
 export function formatDate (date, hasTime) {
-
   var hasTime = hasTime // 可传第二个参数false，返回yyyy-MM-dd
   var d = date
   var year = d.getFullYear()

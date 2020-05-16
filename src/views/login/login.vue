@@ -14,7 +14,7 @@
 
       <el-form-item prop="userName">
         <span class="svg-container">
-          <i class="el-icon-user-solid"></i>
+          <i class="el-icon-user-solid"/>
         </span>
         <el-input
           ref="userName"
@@ -35,7 +35,7 @@
       >
         <el-form-item prop="passWord">
           <span class="svg-container">
-            <i class="el-icon-lock"></i>
+            <i class="el-icon-lock"/>
           </span>
           <el-input
             :key="passwordType"
@@ -54,7 +54,7 @@
             class="show-pwd"
             @click="showPwd"
           >
-            <i class="el-icon-view"></i>
+            <i class="el-icon-view"/>
           </span>
         </el-form-item>
       </el-tooltip>
@@ -142,7 +142,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          let md5 = crypto.createHash('md5')
+          const md5 = crypto.createHash('md5')
           md5.update(this.loginForm.passWord) //  需要加密的密码
           this.loginForm.password = md5.digest('hex') //  password 加密完的密码
           console.log(this.loginForm.password)
@@ -150,7 +150,7 @@ export default {
           // 封装的公共请求API
           commonAPI('queryUser', this.loginForm)
             .then(res => {
-              let data = res.data
+              const data = res.data
               console.log(data)
               if (data.info.code === '0' && data.data.status === 'OK') {
                 this.$store.dispatch('changeUserName', this.loginForm.userName)
@@ -211,16 +211,16 @@ export default {
 
       input {
         background: transparent;
-        border: 0px;
+        border: 0;
         -webkit-appearance: none;
-        border-radius: 0px;
+        border-radius: 0;
         padding: 12px 5px 12px 15px;
         color: $light_gray;
         height: 47px;
         caret-color: $cursor;
 
         &:-webkit-autofill {
-          box-shadow: 0 0 0px 1000px $bg inset !important;
+          box-shadow: 0 0 0 1000px $bg inset !important;
           -webkit-text-fill-color: $cursor !important;
         }
       }
@@ -281,7 +281,7 @@ export default {
       .title {
         font-size: 26px;
         color: $light_gray;
-        margin: 0px auto 40px auto;
+        margin: 0 auto 40px auto;
         text-align: center;
         font-weight: bold;
       }
@@ -299,7 +299,7 @@ export default {
 
     .code {
       position: absolute;
-      right: 0px;
+      right: 0;
       font-size: 16px;
       color: $dark_gray;
       cursor: pointer;
