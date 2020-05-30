@@ -101,7 +101,7 @@ export const asyncRoutes = [
         name: 'subBook',
         component: () => import('@/views/book/subBook'),
         meta: {
-          title: '图书借阅',
+          title: '图书详情',
           icon: 'el-icon-notebook-1',
           menu: true,
           funcNode: '3-2',
@@ -129,6 +129,32 @@ export const asyncRoutes = [
           icon: 'el-icon-document-copy',
           menu: true,
           funcNode: '3-4',
+          role: ['admin']
+        }
+      }
+    ]
+  },
+  {
+    path: '/order',
+    name: 'order',
+    component: () => import('@/views/layout/Layout'),
+    meta: {
+      title: '订单管理',
+      icon: 'el-icon-setting',
+      menu: true,
+      funcNode: '4',
+      role: ['admin']
+    },
+    children: [
+      {
+        path: '/orders',
+        name: 'orders',
+        component: () => import('@/views/order/orderBook'),
+        meta: {
+          title: '订单详情',
+          icon: 'el-icon-notebook-1',
+          menu: true,
+          funcNode: '4-1',
           role: ['admin']
         }
       }

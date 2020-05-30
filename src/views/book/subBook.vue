@@ -26,6 +26,7 @@
         <el-table-column align="center" label="库存" prop="inventory"/>
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
+            <el-button size="mini" @click="buyManage(scope)">购买</el-button>
             <el-button size="mini" @click="getDate(scope)">借阅</el-button>
           </template>
         </el-table-column>
@@ -37,6 +38,7 @@
       </el-pagination>
     </div>
 
+    <bookBuy :option="buyBook" @refreshTable="getData"/>
     <printSubBook :option="printDialog"/>
   </div>
 </template>
@@ -44,10 +46,12 @@
 <script>
 import { commonAPI } from '@/api/commonAPI'
 import printSubBook from './dialog/printSubBook'
+import bookBuy from './dialog/bookBuy'
 
 export default {
   components: {
-    printSubBook
+    printSubBook,
+    bookBuy
   },
   data () {
     return {
@@ -59,6 +63,12 @@ export default {
       },
       tableData: [],
       pageSizes: [5, 10, 20, 40],
+      buyBook: {
+        title: '',
+        isShow: false,
+        tableData: [],
+        isDisabled: false
+      },
       subManage: {
         uId: Number,
         bId: Number,
@@ -135,6 +145,14 @@ export default {
         .catch(error => {
           this.subBook(val, time)
         })
+    },
+    buyManage (val) {
+      this.bookBuy.isShow = true
+      if (val) {
+        this.buyBook.title = '购买书籍'
+        this.buyBook.tableData = val.row
+        this.buyBook.isDisabled = true
+      }
     },
     subBook (val, time) {
       this.loading = true

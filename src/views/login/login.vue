@@ -1,13 +1,6 @@
 <template>
   <div class="login-container">
-    <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      class="login-form"
-      autocomplete="on"
-      label-position="left"
-    >
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left" >
       <div class="title-container">
         <h3 class="title">登 &nbsp; 录 &nbsp; 界 &nbsp; 面</h3>
       </div>
@@ -16,44 +9,17 @@
         <span class="svg-container">
           <i class="el-icon-user-solid"/>
         </span>
-        <el-input
-          ref="userName"
-          v-model="loginForm.userName"
-          placeholder="用户名"
-          name="userName"
-          type="text"
-          tabindex="1"
-          autocomplete="on"
-        />
+        <el-input ref="userName" v-model="loginForm.userName" placeholder="用户名" name="userName" type="text" tabindex="1" autocomplete="on"/>
       </el-form-item>
 
-      <el-tooltip
-        v-model="capsTooltip"
-        content="大写开启"
-        placement="right"
-        manual
-      >
+      <el-tooltip v-model="capsTooltip" content="大写开启" placement="right"  manual>
         <el-form-item prop="passWord">
           <span class="svg-container">
             <i class="el-icon-lock"/>
           </span>
-          <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="loginForm.passWord"
-            :type="passwordType"
-            placeholder="密码"
-            name="password"
-            tabindex="2"
-            autocomplete="on"
-            @keyup.native="checkCapslock"
-            @blur="capsTooltip = false"
-            @keyup.enter.native="handleLogin"
-          />
-          <span
-            class="show-pwd"
-            @click="showPwd"
-          >
+          <el-input :key="passwordType" ref="password" v-model="loginForm.passWord" :type="passwordType" placeholder="密码" name="password"
+            tabindex="2" autocomplete="on" @keyup.native="checkCapslock" @blur="capsTooltip = false" @keyup.enter.native="handleLogin"/>
+          <span class="show-pwd" @click="showPwd">
             <i class="el-icon-view"/>
           </span>
         </el-form-item>

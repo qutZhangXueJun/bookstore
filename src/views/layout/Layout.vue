@@ -1,9 +1,13 @@
 <template>
   <el-container style="height: 100%;" class="abc" :class="{active:isActive}">
     <!-- 头部 -->
-    <el-header style="text-align: right; font-size: 12px">
+    <el-header>
+      <div style="align-items: center; display: flex; font-size: 24px;">
+        <img src="../../assets/shouye.png">
+        <span>书店管理系统</span>
+      </div>
       <el-dropdown trigger="click" @command="handleCommand">
-        <span class="el-dropdown-link" >
+        <span class="el-dropdown-link">
           你好，{{uName}}<i class="el-icon-setting el-icon--right"/>
         </span>
         <el-dropdown-menu slot="dropdown">
@@ -22,6 +26,7 @@
             v-if="hiddlen(item)"
           >
             <!-- 这里必须设置index,相当唯一标识这个菜单标签，否则菜单列表点击后随意展开 -->
+            <!-- 一级菜单-->
             <el-submenu
               :index="item.meta.funcNode"
               :key="item.path"
@@ -32,6 +37,7 @@
                 v-for="itemC in item.children"
                 v-if="item.children"
               >
+                <!-- 二级菜单-->
                 <el-menu-item
                   :index="itemC.meta.funcNode"
                   :key="itemC.path"
@@ -168,6 +174,8 @@ export default {
     background-color: #B3C0D1;
     color: #333;
     line-height: 60px;
+    display: flex;
+    justify-content: space-between; /*左右贴边*/
   }
   .user-avatar {
     cursor: pointer;

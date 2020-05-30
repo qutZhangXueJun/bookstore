@@ -15,32 +15,11 @@
     </el-card>
     <el-card style="margin-top:10px">
       <!-- <el-button type="primary" size="mini" :disabled="disabled" style="float:left" @click="addList()"><i class="el-icon-circle-plus-outline"></i>&nbsp;新增</el-button><br><br> -->
-      <el-table
-        v-loading="loading"
-        :data="tableDataFinally"
-        stripe
-        border
-        size="mini"
-      >
-        <el-table-column
-          align="center"
-          label="书名"
-          prop="bookName"
-        />
-        <el-table-column
-          align="center"
-          label="用户名"
-          prop="uName"
-        />
-        <el-table-column
-          align="center"
-          label="借阅时间"
-          prop="subDateTime"
-        />
-        <el-table-column
-          align="center"
-          label="操作"
-        >
+      <el-table v-loading="loading" :data="tableDataFinally" stripe border size="mini">
+        <el-table-column align="center" label="书名" prop="bookName"/>
+        <el-table-column align="center" label="用户名" prop="uName"/>
+        <el-table-column align="center" label="借阅时间" prop="subDateTime"/>
+        <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <el-button size="mini" :disabled="changeFlag(scope)" @click="isCuiHuan(scope)">催还</el-button>
           </template>
