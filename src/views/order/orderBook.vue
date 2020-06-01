@@ -2,9 +2,9 @@
   <el-container>
     <el-header style="background-color:white">
       <el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
-        <el-form-item label="用户名">
-          <el-input v-model="formQuery.userName" placeholder="用户名"/>
-        </el-form-item>
+<!--        <el-form-item label="用户名">-->
+<!--          <el-input v-model="formInline.userName" placeholder="用户名"/>-->
+<!--        </el-form-item>-->
         <el-form-item label="下单时间">
           <el-date-picker class="dateStyle" v-model="formInline.beginTime" value-format="yyyy-MM-dd HH:mm:ss"
                           @change="dataFormat" type="datetime" placeholder="选择日期时间"/>
@@ -50,8 +50,8 @@
 <script>
 
 import { commonAPI } from '../../api/commonAPI'
-import { formatDate } from '@/utils/index'
 import orderEditor from './dialog/orderEditor'
+import { formatDate } from '../../utils'
 
 export default {
   components: { orderEditor },
@@ -59,7 +59,6 @@ export default {
     return {
       formQuery: {
         userName: '',
-        isbn: '',
         pageNum: 1,
         pageSize: 10
       },
@@ -72,20 +71,13 @@ export default {
         endTime: new Date()
       },
       pageSizes: [5, 10, 20, 40],
-      subManage: {
-        oId: Number,
-        userName: '',
-        isbn: '',
-        count: '',
-        orderDate: ''
-      },
       editOrder: {
         title: '',
         isShow: false,
         tableData: [],
         isDisabled: false
       },
-      pageTotal: 0
+      pageTotal: Number
     }
   },
   created () {
@@ -128,9 +120,11 @@ export default {
     },
     OrderManage (val) {
       this.editOrder.isShow = true
-      this.editOrder.title = '编辑订单'
-      this.editOrder.tab = val.row
-      this.editOrder.isDisabled = true
+      if (val) {
+        this.editOrder.title = '编辑订单'
+        this.editOrder.tableData = val.row
+        this.editOrder.isDisabled = true
+      }
     },
     delOrder (val) {
       this.loading = true

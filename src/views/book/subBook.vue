@@ -147,7 +147,7 @@ export default {
         })
     },
     buyManage (val) {
-      this.bookBuy.isShow = true
+      this.buyBook.isShow = true
       if (val) {
         this.buyBook.title = '购买书籍'
         this.buyBook.tableData = val.row

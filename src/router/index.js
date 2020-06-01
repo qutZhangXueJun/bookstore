@@ -147,8 +147,8 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: '/orders',
-        name: 'orders',
+        path: '/orderBook',
+        name: 'orderBook',
         component: () => import('@/views/order/orderBook'),
         meta: {
           title: '订单详情',

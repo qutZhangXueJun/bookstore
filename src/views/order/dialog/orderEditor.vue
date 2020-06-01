@@ -7,24 +7,26 @@
       @open = "openDialog"
       >
         <el-card>
-          <el-form ref="addData" :model="addData" :rules="rules" lable-width="100px" label-position="left">
+          <el-form ref="addData" :model="addData" :rules="rules" label-width="100px" label-position="left">
             <el-row :gutter="30">
               <el-col :span="12">
-                <el-form-item prop="userName" lable="用户名：">
-                  <el-input v-model="editOrder.userName" placeholder="用户名" :disabled="isDisabled"/>
-                </el-form-item>
-                <el-form-item prop="isbn" lable="isbn：">
-                  <el-input v-model="editOrder.isbn" placeholder="isbn" :disabled="isDisabled"/>
+                <el-form-item prop="userName" label="用户名:">
+                  <el-input v-model="addData.userName" placeholder="用户名" :disabled="isDisabled"/>
                 </el-form-item>
               </el-col>
-            </el-row>
-            <el-row :gutter="30">
               <el-col :span="12">
-                <el-form-item prop="count" lable="数量：">
-                  <el-input v-model="editOrder.count" placeholder="数量"/>
+                <el-form-item prop="isbn" label="序列号:">
+                  <el-input v-model="addData.isbn" placeholder="序列号" :disabled="isDisabled"/>
                 </el-form-item>
-                <el-form-item prop="orderDate" lable="下单时间：">
-                  <el-input v-model="editOrder.orderDate" placeholder="下单时间"/>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item prop="count" label="原订购量">
+                  <el-input v-model="addData.count" placeholder="数量" :disabled="isDisabled"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item prop="reCount" label="现订购量">
+                  <el-input v-model="addData.reCount" placeholder="10"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -56,24 +58,24 @@ export default {
     }
     return {
       addData: {
+        oId: Number,
         userName: '',
         isbn: '',
-        count: Number
+        count: Number,
+        reCount: Number
       },
       userName: [],
       title: '',
       flag: false,
-      formQuery: {
+      editManage: {
         userName: '',
         isbn: '',
-        pageNum: 1,
-        pageSize: 10
+        count: Number,
+        orderDate: ''
       },
       isDisabled: false,
       rules: {
-        isbn: [{ required: true, message: '请输入isbn', trigger: 'blur' }],
-        userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-        author: [{ required: true, message: '请输入购买数量', trigger: 'blur' }]
+        count: [{ required: true, message: '请重新输入购买数量', trigger: 'blur' }, { trigger: 'blur', validator: isNumber }]
       }
     }
   },
@@ -101,21 +103,26 @@ export default {
       this.$emit('refreshTable')
     },
     editOrder () {
+      this.editManage.count = this.addData.count
       if (this.flag === false) {
         this.$refs.addData.validate(valid => {
-          commonAPI('editOrder', this.addData)
-            .then(res => {
-              this.option.isShow = false
-              if (res.data.data === 'OK') {
-                this.$message({
-                  showClose: true,
-                  message: '修改成功',
-                  type: 'success'
+          if (valid) {
+            if (this.isDisabled !== false) {
+              commonAPI('editOrder', { count: this.editManage.count, oId: this.addData.oId })
+                .then(res => {
+                  this.option.isShow = false
+                  if (res.data.data === 'OK') {
+                    this.$message({
+                      showClose: true,
+                      message: '修改成功',
+                      type: 'success'
+                    })
+                  } else {
+                    this.$message.error('修改失败，请重试')
+                  }
                 })
-              } else {
-                this.$message.error('修改失败，请重试')
-              }
-            })
+            }
+          }
         })
       }
     }
