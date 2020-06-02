@@ -7,11 +7,11 @@ function resolve (dir) {
 const port = 9527
 
 module.exports = {
-  publicPath: '/',
-  outputDir: 'dist',
-  assetsDir: 'static',
+  publicPath: '/', // 基本路径
+  outputDir: 'dist', // 构建时的输出目录
+  assetsDir: 'static', // 放置静态资源的目录
   lintOnSave: process.env.NODE_ENV === 'development',
-  productionSourceMap: false,
+  productionSourceMap: false, //  是否为生产环境构建生成 source map
   devServer: {
     port: port,
     open: true,
@@ -22,7 +22,7 @@ module.exports = {
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
         target: 'http://localhost:8080/',
-        changeOrigin: true,
+        changeOrigin: true, // 允许跨域
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }

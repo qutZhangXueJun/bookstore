@@ -67,12 +67,16 @@ export default {
         .then(res => {
           for (let i = 0; i < res.data.data.rows.length; i++) {
             this.tableData.push(res.data.data.rows[i])
-            let j = 0
+            var j = 0
+            console.log(`第${i}次循环`)
             commonAPI('queryBookList', { bId: res.data.data.rows[i].bId, pageNum: 1, pageSize: 10 })
               .then(res1 => {
+                // let j = 0
                 Object.assign(this.tableData[j], res1.data.data.rows[0])
                 j++
+                console.log(`内循环i=${i},j=${j}`)
                 if (j === i) {
+                  console.log(`相等i=${i},j=${j}`)
                   this.loading = false
                   this.tableSubData = this.tableData
                   this.total = this.tableSubData.length

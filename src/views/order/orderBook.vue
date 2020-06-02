@@ -63,6 +63,7 @@ export default {
         pageSize: 10
       },
       tableData: [],
+      tableDataBook: [],
       loading: false,
       formInline: {
         pageNum: 1,
@@ -70,19 +71,26 @@ export default {
         beginTime: new Date(new Date().getTime() - 3600 * 1000 * 24 * 7),
         endTime: new Date()
       },
+      bookList: {
+        bookName: '',
+        isbn: ''
+      },
       pageSizes: [5, 10, 20, 40],
       editOrder: {
         title: '',
         isShow: false,
         tableData: [],
+        tableDataBook: [],
         isDisabled: false
       },
-      pageTotal: Number
+      pageTotal: Number,
+      pageTotal2: Number
     }
   },
   created () {
     this.formInline.beginTime = formatDate(this.formInline.beginTime, true)
     this.formInline.endTime = formatDate(this.formInline.endTime, true)
+    this.getBookData()
     this.getData()
   },
   methods: {
@@ -93,6 +101,12 @@ export default {
           this.loading = false
           this.tableData = res.data.data.rows
           this.pageTotal = res.data.data.total
+        })
+    },
+    getBookData () {
+      commonAPI('queryBookList', this.formInline)
+        .then(res1 => {
+          this.tableDataBook = res1.data.data.rows
         })
     },
     dataFormat (val) {
@@ -123,6 +137,7 @@ export default {
       if (val) {
         this.editOrder.title = '编辑订单'
         this.editOrder.tableData = val.row
+        this.editOrder.bookData = val.row
         this.editOrder.isDisabled = true
       }
     },

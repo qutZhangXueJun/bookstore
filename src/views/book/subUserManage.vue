@@ -67,36 +67,42 @@ export default {
     getCommonData () {
       commonAPI('queryUserList', this.formInline).then(res => {
         this.tableDataUser = res.data.data.rows
+        console.log(`1`)
       })
       commonAPI('queryBookList', this.formInline).then(res => {
         this.tableDataBook = res.data.data.rows
+        console.log(`2`)
       })
     },
     getData () {
       this.loading = true
-      commonAPI('querySub', { bookType: 1, uId: this.formQuery.uId }).then(res => {
-        this.tableDataDemo = res.data.data.rows
-        this.tableData = res.data.data.rows
-        for (let i = 0; i < this.tableDataDemo.length; i++) {
-          for (let j = 0; j < this.tableDataUser.length; j++) {
-            if (this.tableDataDemo[i].uId === this.tableDataUser[j].id) {
-              // json里添加额外内容
-              Object.assign(this.tableDataDemo[i], { uName: this.tableDataUser[j].uName })
+      commonAPI('querySub', { bookType: 1, uId: this.formQuery.uId })
+        .then(res => {
+          this.tableDataDemo = res.data.data.rows
+          this.tableData = res.data.data.rows
+          for (let i = 0; i < this.tableDataDemo.length; i++) {
+            for (let j = 0; j < this.tableDataUser.length; j++) {
+              // console.log(`j=${j}`)
+              if (this.tableDataDemo[i].uId === this.tableDataUser[j].uId) {
+                // json里添加额外内容
+                console.log(`tableDataUser`)
+                Object.assign(this.tableDataDemo[i], { uName: this.tableDataUser[j].uName })
+              }
             }
           }
-        }
-        for (let i = 0; i < this.tableDataDemo.length; i++) {
-          for (let j = 0; j < this.tableDataBook.length; j++) {
-            if (this.tableDataDemo[i].bId === this.tableDataBook[j].bId) {
-              Object.assign(this.tableDataDemo[i], { bookName: this.tableDataBook[j].bookName })
+          for (let i = 0; i < this.tableDataDemo.length; i++) {
+            for (let j = 0; j < this.tableDataBook.length; j++) {
+              if (this.tableDataDemo[i].bId === this.tableDataBook[j].bId) {
+                console.log(`tableDataBook`)
+                Object.assign(this.tableDataDemo[i], { bookName: this.tableDataBook[j].bookName })
+              }
             }
           }
-        }
-        this.loading = false
-        this.tableDataFinally = this.tableDataDemo
-        console.log(this.tableDataFinally)
-        this.tableDataDemo = []
-      })
+          this.loading = false
+          this.tableDataFinally = this.tableDataDemo
+          console.log(this.tableDataFinally)
+          this.tableDataDemo = []
+        })
     },
     // returntype:1未催还，2已催还，3已归还
     changeFlag (scope) {

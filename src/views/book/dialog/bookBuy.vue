@@ -121,7 +121,7 @@ export default {
       commonAPI('addOrder', this.buyManage)
         .then(res => {
           var total = this.addData.inventory - this.addData.count
-          commonAPI('updateInventory', { inventory: total, bId: this.addData.bId })
+          commonAPI('updateInventtories', { inventory: total, bId: this.addData.bId })
             .then(res1 => {
               this.loading = false
               this.option.isShow = false

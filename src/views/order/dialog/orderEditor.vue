@@ -31,6 +31,13 @@
               </el-col>
             </el-row>
           </el-form>
+          <el-form ref="bookData" :model="bookData" label-width="100px" label-position="left">
+            <el-col :span="12">
+              <el-form-item prop="inventory" label="剩余图书数量">
+                <el-input v-model="bookData.inventory" placeholder="剩余库存" :disabled="isDisabled"/>
+              </el-form-item>
+            </el-col>
+          </el-form>
         </el-card>
         <div style="text-align:right;margin:20px 0">
           <el-button size="mini" @click="closeDialog">取消</el-button>
@@ -64,13 +71,21 @@ export default {
         count: Number,
         reCount: Number
       },
+      bookData: {
+        isbn: '',
+        bookName: '',
+        author: '',
+        publish: '',
+        price: Number,
+        inventory: Number
+      },
       userName: [],
       title: '',
       flag: false,
       editManage: {
         userName: '',
         isbn: '',
-        count: Number,
+        inventory: Number,
         orderDate: ''
       },
       isDisabled: false,
@@ -95,6 +110,7 @@ export default {
       this.title = this.option.title
       this.isDisabled = this.option.isDisabled
       this.addData = JSON.parse(JSON.stringify(this.option.tableData))
+      this.bookData = JSON.parse(JSON.stringify(this.option.tableDataBook))
     },
     closeDialog () {
       this.$refs.addData.resetFields()
@@ -103,22 +119,48 @@ export default {
       this.$emit('refreshTable')
     },
     editOrder () {
+      var chazhi = 0
+      var oriCount = this.addData.count
+      var nowCount = this.addData.reCount
       this.editManage.count = this.addData.count
       if (this.flag === false) {
         this.$refs.addData.validate(valid => {
           if (valid) {
             if (this.isDisabled !== false) {
-              commonAPI('editOrder', { count: this.editManage.count, oId: this.addData.oId })
+              commonAPI('editOrder', { count: nowCount, oId: this.addData.oId })
                 .then(res => {
-                  this.option.isShow = false
-                  if (res.data.data === 'OK') {
-                    this.$message({
-                      showClose: true,
-                      message: '修改成功',
-                      type: 'success'
-                    })
+                  if (oriCount >= nowCount) {
+                    chazhi = oriCount - nowCount
+                    this.editManage.inventory = this.bookData.inventory + chazhi
+                    commonAPI('updateInventory', { inventory: this.editManage.inventory, isbn: this.addData.isbn })
+                      .then(res1 => {
+                        this.option.isShow = false
+                        if (res.data.data === 'OK') {
+                          this.$message({
+                            showClose: true,
+                            message: '修改成功',
+                            type: 'success'
+                          })
+                        } else {
+                          this.$message.error('修改失败，请重试')
+                        }
+                      })
                   } else {
-                    this.$message.error('修改失败，请重试')
+                    chazhi = nowCount - oriCount
+                    this.editManage.inventory = this.bookData.inventory - chazhi
+                    commonAPI('updateInventory', { inventory: this.editManage.inventory, isbn: this.addData.isbn })
+                      .then(res1 => {
+                        this.option.isShow = false
+                        if (res.data.data === 'OK') {
+                          this.$message({
+                            showClose: true,
+                            message: '修改成功',
+                            type: 'success'
+                          })
+                        } else {
+                          this.$message.error('修改失败，请重试')
+                        }
+                      })
                   }
                 })
             }
