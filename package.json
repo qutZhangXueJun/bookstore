@@ -14,7 +14,7 @@
     "crypto": "^1.0.1",
     "element-ui": "^2.13.0",
     "express": "latest",
-    "moment": "^2.26.0",
+    "moment": "^2.29.4",
     "vue": "^2.6.10",
     "vue-print-nb": "^1.4.0",
     "vue-resource": "^1.5.1",
